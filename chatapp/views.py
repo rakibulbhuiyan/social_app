@@ -203,7 +203,6 @@ class SettingsView(View):
 
         return redirect('settings')
 
-
 class SignupView(View):
     template_name='signup.html'
     def get(self,request,*args, **kwargs):
@@ -239,7 +238,6 @@ class SignupView(View):
                 messages.error(request,'password not matching !')
                 return redirect('signup')
     
-
 class SigninView(View):
     template_name = 'signin.html'
     def get(self, request, *args, **kwargs):
@@ -256,9 +254,8 @@ class SigninView(View):
             messages.error(request, "Invalid credentials")
             return redirect("signin") 
     
-
-@login_required(login_url='signin')
-class LogoutView(View):
+@method_decorator(login_required(login_url='signin'), name='dispatch')
+class CustomLogoutView(View):
     def get(self, request, *args, **kwargs):
         auth.logout(request)
         return redirect('signin')   
